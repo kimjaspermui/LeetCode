@@ -1,61 +1,46 @@
 class Solution {
 public:
+    
+    // this will check a potential palindrome
+    void checkPalindrome(string s, int j, int k, int& start, int& maxLength) {
+        
+        // while it's within the bound check move two sides
+        while (j >= 0 && k < s.size() && s[j] == s[k]) {
+            
+            j--;
+            k++;
+        }
+        
+        // compare the current palindrome size with the maximum length
+        if (maxLength < k - j - 1) {
+            
+            // update the length if it's greater, also update the starting index
+            maxLength = k - j - 1;
+            start = j + 1;
+        }
+    }
+    
     string longestPalindrome(string s) {
 
-        if (!s.length()) {
+        // just return the string if 0 or 1 length
+        if (s.size() < 2) {
 
             return s;
         }
 
-        string longest = string(s[0]);
-        int longestNum = 1;
+        // this will keep track of the low index of longest palindrome and its length
+        int start = 0;
+        int maxLength = 1;
 
-        for (int i = 1; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++) {
 
-            // set up for even length palindrome
-            int j = i - 1;
-            int k = i;
-            int tempLength = 0;
-
-            // even length
-            while (j >= 0 && k < s.length() && s[j] == s[k]) {
-
-                j--;
-                k++;
-            }
-
-            // get the length of this palindrome, -2 for two extra moves from j and k
-            tempLength = (k--) - (j++) + 1 - 2;
-
-            if (tempLength > longest) {
-
-                longestNum = tempLength;
-
-                // todo: check documentation
-                longest = s.substr(j, k);
-            }
-
-            // odd length
-            j = i - 1;
-            k = i + 1;
-            while (j >= 0 && k < s.length() && s[j] == s[k]) {
-
-                j--;
-                k++;
-            }
-
-            // get the length of this palindrome, -2 for two extra moves from j and k
-            tempLength = (k--) - (j++) + 1 - 2;
-
-            if (tempLength > longest) {
-                
-                longestNum = tempLength;
-
-                // todo: check documentation
-                longest = s.substr(j, k);
-            }
+            // check odd length palindrome
+            checkPalindrome(s, i, i, start, maxLength);
+            
+            // check even length palindrome
+            checkPalindrome(s, i, i + 1, start, maxLength);
         }
 
-        return longest;
+        return s.substr(start, maxLength);
     }
 };
