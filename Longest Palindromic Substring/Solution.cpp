@@ -1,46 +1,44 @@
 class Solution {
 public:
     
-    // this will check a potential palindrome
-    void checkPalindrome(string s, int j, int k, int& start, int& maxLength) {
+    // this function will check the longest palindrome from this initial end point
+    void checkPalindrome(string s, int low, int high, int& start, int& maxLength) {
         
-        // while it's within the bound check move two sides
-        while (j >= 0 && k < s.size() && s[j] == s[k]) {
+        // decrement low index and increment high index while within the bound
+        // and same character
+        while (low >= 0 && high < s.length() && s[low] == s[high]) {
             
-            j--;
-            k++;
+            low--;
+            high++;
         }
         
-        // compare the current palindrome size with the maximum length
-        if (maxLength < k - j - 1) {
+        // minus 2 corresponds to extra two index and plus 1 to include the one end from difference
+        int tempLength = high - low - 2 + 1;
+        
+        // when temporary length is larger, update start index and the length
+        if (tempLength > maxLength) {
             
-            // update the length if it's greater, also update the starting index
-            maxLength = k - j - 1;
-            start = j + 1;
+            start = low + 1;
+            maxLength = tempLength;
         }
     }
     
     string longestPalindrome(string s) {
-
-        // just return the string if 0 or 1 length
-        if (s.size() < 2) {
-
-            return s;
-        }
-
-        // this will keep track of the low index of longest palindrome and its length
+        
+        // initialize max length with 0 and starting index to 0
+        int maxLength = 0;
         int start = 0;
-        int maxLength = 1;
-
+        
+        // for loop to try every index as middle of a palindrome and find the longest one
         for (int i = 0; i < s.length(); i++) {
-
-            // check odd length palindrome
+            
+            // odd case
             checkPalindrome(s, i, i, start, maxLength);
             
-            // check even length palindrome
+            // even case
             checkPalindrome(s, i, i + 1, start, maxLength);
         }
-
+        
         return s.substr(start, maxLength);
     }
 };
