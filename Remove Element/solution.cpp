@@ -1,22 +1,22 @@
 class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
-        
-        // this will keep track of the new length
-        int length = 0;
-        
-        // for loop to iterate through all elements
-        for (int i = 0, j = 0; i < nums.size(); i++) {
-            
-            // when it is not the target, then grab the element to j
-            // then increment the count
+
+        // this will keep track where to store the elements
+        int storeIndex = 0;
+
+        // iterate all elements to take out all val
+        for (int i = 0; i < nums.size(); i++) {
+
+            // if it is not val then move the element to the storeIndex
+            // otherwise, keep the storeIndex to skip val
             if (nums[i] != val) {
-                
-                nums[j++] = nums[i];
-                length++;
+
+                nums[storeIndex++] = nums[i];
             }
         }
-        
-        return length;
+
+        // the storeIndex is also the length
+        return storeIndex;
     }
 };
