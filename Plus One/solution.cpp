@@ -1,40 +1,29 @@
 class Solution {
 public:
     vector<int> plusOne(vector<int>& digits) {
-        
-        // this will indicate carry from index 0
-        bool isZero = false;
-        
-        // start from the end, add 1 until no 10
+
+        // initialize carry to 1 to plus 1
+        int carry = 1;
+
+        // start from the end
         for (int i = digits.size() - 1; i >= 0; i--) {
-            
-            digits[i] += 1;
-            
-            // case for carry
-            if (digits[i] == 10) {
-                
-                digits[i] = 0;
-                
-                if (i == 0) {
-                    
-                    isZero = true;
-                }
-            }
-            
-            // otherwise, break
-            else {
-                
-                break;
-            }
+
+            // get the sum by adding carry
+            int sum = digits[i] + carry;
+
+            // update the digit by getting the digit
+            digits[i] = sum % 10;
+
+            // update the carry
+            carry = sum / 10;
         }
-        
-        // if the beginning is 10, then prepend a 1
-        if (digits[0] == 10 || isZero) {
-            
-            digits[0] = 0;
+
+        // if there is carry at the end, prepend 1
+        if (carry) {
+
             digits.insert(digits.begin(), 1);
         }
-        
+
         return digits;
     }
 };
