@@ -1,25 +1,33 @@
-class Solution:
+class Solution(object):
     def maxProfit(self, prices):
         """
         :type prices: List[int]
         :rtype: int
         """
-        # initialize maxProfit to 0
+
+        # no profit for less than 2 elements
+        if len(prices) < 2:
+            return 0
+
+        # current min stock and max profit
+        minStock = prices[0]
         maxProfit = 0
-        
-        # initialize minimum stock from previous elements to maximum int
-        minStock = sys.maxsize
-        
-        # for loop to iterate all stocks
-        for p in prices:
-            # if p is less than current min, then update it
-            if p < minStock:
-                minStock = p
-                
-            # otherwise, get the difference from the current min, then
-            # update the max profit if it's larger
+
+        # for loop to iterate the entire prices
+        for i in range(1, len(prices)):
+
+            # get the current price
+            currPrice = prices[i]
+
+            # if it is less than min stock then update it
+            if currPrice <= minStock:
+                minStock = currPrice
+
+            # otherwise get the difference and see if it is greater
+            # than current max profit
             else:
-                diff = p - minStock
+                diff = currPrice - minStock
+
                 if diff > maxProfit:
                     maxProfit = diff
 
