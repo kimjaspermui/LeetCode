@@ -7,46 +7,27 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
- class Solution {
+class Solution {
 public:
     bool hasPathSum(TreeNode* root, int sum) {
-        
-        int currentSum = sum;
-        
-        // get the current sum by substracting sum by val
-        if (root) {
-            
-            currentSum = sum - root->val;
-        }
-        
-        else {
-            
+
+        // if null then return false
+        if (!root) {
+
             return false;
         }
-        
-        // if leaf return if equal to 0
+
+        // get the difference for check and recursion
+        int diff = sum - root->val;
+
+        // leaf node case
         if (!root->left && !root->right) {
-            
-            return currentSum == 0;
+
+            // return true if diff is 0, otherwise false
+            return !diff;
         }
-        
-        // initialize returns to false
-        bool leftReturn = false;
-        bool rightReturn = false;
-        
-        // left case
-        if (root->left) {
-            
-            leftReturn = hasPathSum(root->left, currentSum);
-        }
-        
-        // right case
-        if (root->right) {
-            
-            rightReturn = hasPathSum(root->right, currentSum);
-        }
-        
-        // return true if either returns is true
-        return leftReturn || rightReturn;
+
+        // check the path on left and right
+        return hasPathSum(root->left, diff) || hasPathSum(root->right, diff);
     }
 };

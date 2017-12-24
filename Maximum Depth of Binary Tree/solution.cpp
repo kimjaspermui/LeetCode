@@ -7,39 +7,17 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
- class Solution {
+class Solution {
 public:
     int maxDepth(TreeNode* root) {
 
-        // initialized the each max
-        int leftMax = INT_MIN;
-        int rightMax = INT_MIN;
-
-        // empty tree case
-        if (root == nullptr) {
+        // if root is null then return 0 depth
+        if (!root) {
 
             return 0;
         }
 
-        // reached leave
-        if (root->left == nullptr && root->right == nullptr) {
-
-            return 1;
-        }
-
-        // recurse on left
-        if (root->left) {
-
-            leftMax = maxDepth(root->left);
-        }
-
-        // recurse on right
-        if (root->right) {
-
-            rightMax = maxDepth(root->right);
-        }
-
-        // take the max between the two then plus 1
-        return 1 + max(leftMax, rightMax);
+        // recurse on left and right, get the max and plus 1 to include itself
+        return 1 + max(maxDepth(root->left), maxDepth(root->right));
     }
 };
