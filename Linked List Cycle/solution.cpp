@@ -6,36 +6,35 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
- class Solution {
+class Solution {
 public:
     bool hasCycle(ListNode *head) {
-        
-        // two pointers to iterate
-        ListNode* first = head;
-        ListNode* second = head;
-        
-        // while first and second not null, keep checking
-        while (first && second) {
-            
-            // first go one step, second go two steps
-            first = first->next;
-            second = second->next;
-            
-            // if second is null then return false
-            if (!second) {
-                
-                break;
-            }
-            
-            second = second->next;
-            
-            // when first and second meet, there's a cycle
-            if (first == second) {
-                
+
+        // empty list return false for no cycle
+        if (!head) {
+
+            return false;
+        }
+
+        // initialize two pointers at the beginning of the linked list
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        // while fast's next pointer is not null then keep looping
+        while (fast->next && fast->next->next) {
+
+            // update the pointers, fast 2x
+            slow = slow->next;
+            fast = fast->next->next;
+
+            // if they meet, then there's a cycle
+            if (slow == fast) {
+
                 return true;
             }
         }
-        
+
+        // reach end, then return false
         return false;
     }
 };
