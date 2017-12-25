@@ -1,44 +1,51 @@
 class MinStack {
 public:
     /** initialize your data structure here. */
-    
     stack<pair<int, int>> myStack;
 
     MinStack() {
-        
+
+        // don't need to do anything since stack has been initialized
     }
-    
+
     void push(int x) {
-        
-        // initialize min to maximum int
-        int min = INT_MAX;
-        
-        // if stack is not empty then get the current min
-        if (!myStack.empty()) {
-            
-            min = myStack.top().first;
+
+        // if stack is empty, then push current element and use it as min
+        if (myStack.empty()) {
+
+            myStack.push(make_pair(x, x));
         }
-        
-        // update min if necessary
-        min = (min < x) ? min : x;
-        
-        // push the new pair to the stack
-        myStack.push({min, x});
+
+        // otherwise, compare with current min then push the x with min
+        else {
+
+            int currMin = myStack.top().second;
+
+            if (x < currMin) {
+
+                currMin = x;
+            }
+
+            myStack.push(make_pair(x, currMin));
+        }
     }
-    
+
     void pop() {
-        
+
+        // just pop one element
         myStack.pop();
     }
-    
+
     int top() {
-        
-        return myStack.top().second;
-    }
-    
-    int getMin() {
-        
+
+        // return the value at the top of stack
         return myStack.top().first;
+    }
+
+    int getMin() {
+
+        // return the current min
+        return myStack.top().second;
     }
 };
 
