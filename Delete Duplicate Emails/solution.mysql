@@ -1,0 +1,6 @@
+# Write your MySQL query statement below
+
+# delete the row that has the same email but have greater id
+DELETE p1
+FROM Person as p1, Person as p2
+WHERE p1.Email = p2.Email AND p1.Id > p2.Id;
