@@ -1,0 +1,7 @@
+# Write your MySQL query statement below
+
+# max on the column that doesn't have the original max salary
+SELECT MAX(Employee.Salary) as 'SecondHighestSalary'
+FROM Employee
+WHERE Employee.Salary
+NOT IN (SELECT MAX(Employee.Salary) FROM Employee);
