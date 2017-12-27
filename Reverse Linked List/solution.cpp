@@ -6,26 +6,28 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
- class Solution {
+class Solution {
 public:
     ListNode* reverseList(ListNode* head) {
-        
-        // this will keep track of the potential new head and the current node
-        ListNode* newHead = nullptr;
-        ListNode* currentNode = nullptr;
-        
-        // while loop until head is past the end
-        while (head) {
-            
-            // update current node to next, then move head to the next,
-            // then reverse the next pointer to previous, then update the previous
-            // to new head
-            currentNode = head;
-            head = head->next;
-            currentNode->next = newHead;
-            newHead = currentNode;
+
+        ListNode* previous = nullptr;
+        ListNode* current = head;
+        ListNode* next = nullptr;
+
+        // while current is not null, keep looping
+        while (current) {
+
+            // update next to current's next
+            next = current->next;
+
+            // update current's next to previous, previous to current
+            // current to next
+            current->next = previous;
+            previous = current;
+            current = next;
         }
-        
-        return newHead;
+
+        // return previous as the new head
+        return previous;
     }
 };
