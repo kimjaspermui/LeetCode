@@ -1,0 +1,6 @@
+# Write your MySQL query statement below
+
+# select rows have higher temperature than yesterday
+SELECT W1.Id
+FROM Weather as W1, Weather as W2
+WHERE W1.Date = DATE_ADD(W2.Date, INTERVAL 1 DAY) AND W1.Temperature > W2.Temperature;
