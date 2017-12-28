@@ -19,7 +19,8 @@ class Solution:
             # if it's either words then try to check distance
             if w == word1 or w == word2:
 
-                # if current index is not -1 and current word is the other one, check distance
+                # if current index is not -1 and current word is the other one,
+                # check distance
                 if currIndex != -1 and currWord != w:
                     minDistance = min(minDistance, i - currIndex)
 
@@ -28,4 +29,3 @@ class Solution:
                 currWord = w
 
         return minDistance
-                    
