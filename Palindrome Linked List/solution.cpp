@@ -9,57 +9,62 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        
-        // case for empty list
-        if (head == nullptr) {
-            
+
+        // if less than 2 nodes, then return true
+        if (!head || !head->next) {
+
             return true;
         }
-        
-        // pointers to find the half position and to reverse and compare
-        ListNode* slow = head;
-        ListNode* fast = head;
-        ListNode* prev = head;
-        ListNode* next = head;
-        
-        while (fast->next != nullptr && fast->next->next != nullptr) {
-            
-            // 1 step for slow, 2 steps for fast, 
-            slow = slow->next;
-            fast = fast->next->next;
+
+        // first and second half pointers
+        ListNode* first = head;
+        ListNode* second = nullptr;
+
+        // this will keep track of the size of the linked list
+        int count = 0;
+
+        // count the number of nodes
+        while (head) {
+
+            count++;
+            head = head->next;
         }
-        
-        // set up the reverse operation
-        prev = nullptr;
-        slow = slow->next;
-        
-        // reverse half of the list until the end
-        while (slow != nullptr) {
-            
-            next = slow->next;
-            slow->next = prev;
-            prev = slow;
-            slow = next;
+
+        // this will be use for reversing the first half
+        ListNode* previous = nullptr;
+        ListNode* next = nullptr;
+
+        // reverse first half of the linked list
+        for (int i = 0; i < count / 2; i++) {
+
+            next = first->next;
+            first->next = previous;
+            previous = first;
+            first = next;
         }
-        
-        // make sure fast is at the end and slow is at the beginning of list
-        fast = prev;
-        slow = head;
-        
-        // while fast is not at the end of reverse, keep looping
-        while (fast != nullptr) {
-            
-            // if the values are not equal, then return false
-            if (slow->val != fast->val) {
-                
+
+        // set up the pointers
+        first = previous;
+        second = next;
+        if (count % 2 != 0) {
+
+            second = second->next;
+        }
+
+        // start comparing
+        while (first && second) {
+
+            // if not equal then return false for not palindrome
+            if (first->val != second->val) {
+
                 return false;
             }
-            
-            // otherwise, each moves one step
-            slow = slow->next;
-            fast = fast->next;
+
+            // update pointers
+            first = first->next;
+            second = second->next;
         }
-        
+
         return true;
     }
 };
