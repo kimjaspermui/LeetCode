@@ -7,58 +7,56 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
- class Solution {
+class Solution {
 public:
-    
-    // this will get all the paths given a rooth
-    void getPath(TreeNode* root, string currentPath, vector<string>& myVector) {
-        
-        // append it to the path if not the root
-        if (currentPath.length() != 0) {
-            
-            currentPath.append("->").append(to_string(root->val));
-        }
-        
-        // append the root value
-        else {
-            
-            currentPath.append(to_string(root->val));
-        }
-        
-        // reached leaf, push to vector
-        if (!root->left && !root->right) {
-            
-            myVector.push_back(currentPath);
+
+    // this function will fill in allPaths when it reaches leaf nodes given the
+    // path built up to that point
+    void getAllPaths(TreeNode* root, vector<string>& allPaths, string currString) {
+
+        // if null then nothing to append
+        if (!root) {
+
             return;
         }
-        
-        // has left, recurse on it
-        if (root->left) {
-            
-            getPath(root->left, currentPath, myVector);
+
+        // construct the path up to this node
+        string newPath = currString + "->" + to_string(root->val);
+
+        // case for leaf node
+        if (!(root->left) && !(root->right)) {
+
+            allPaths.push_back(newPath);
+            return;
         }
-        
-        // has right, recurse on it
-        if (root->right) {
-            
-            getPath(root->right, currentPath, myVector);
-        }
+
+        // get paths from left and right
+        getAllPaths(root->left, allPaths, newPath);
+        getAllPaths(root->right, allPaths, newPath);
     }
-    
+
     vector<string> binaryTreePaths(TreeNode* root) {
-        
-        // empty root
-        if (!root) {
-            
-            return vector<string>();
+
+        vector<string> allPaths;
+
+        // if root is valid then try to get all paths
+        if (root) {
+
+            // single node, then just store the root as string
+            if (!(root->left) && !(root->right)) {
+
+                allPaths.push_back(to_string(root->val));
+            }
+
+            // otherwise, try to get path from left and right
+            else {
+
+                getAllPaths(root->left, allPaths, to_string(root->val));
+                getAllPaths(root->right, allPaths, to_string(root->val));
+            }
         }
-        
-        // this will store all the paths
-        vector<string> myVector;
-        
-        // recursively get all paths
-        getPath(root, "", myVector);
-        
-        return myVector;
+
+        // return all paths built
+        return allPaths;
     }
 };
