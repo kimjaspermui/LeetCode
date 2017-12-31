@@ -1,53 +1,60 @@
 class Solution {
 public:
     bool wordPattern(string pattern, string str) {
-     
-        // this will store the character and its corresponding string pair
-        unordered_map<char, string> myMap;
-        
-        // this will store already inserted words
-        unordered_set<string> myChecker;
-        
-        // this will stream the string
-        stringstream ss(str);
-        
-        // this will store the temporary input
-        string input;
-        
-        // for loop to iterate all pattern symbols
-        for (int i = 0; i < pattern.length(); i++) {
-            
-            // get the pattern symbol and the word separated by space
-            char myChar = pattern[i];
-            getline(ss, input, ' ');
-            
-            // if the patten has no corresponding string yet, create one
-            if (myMap.find(myChar) == myMap.end()) {
-                
-                // case when this word has already a pair
-                if (myChecker.find(input) != myChecker.end()) {
-                    
-                    return false;
-                }
-                
-                myMap.insert({myChar, input});
-                myChecker.insert(input);
+
+        // paired will store characters have been paired
+        // stringPair will store string's character paired
+        unordered_set<char> paired;
+        unordered_map<string, char> stringPair;
+
+        // start and end indices of a word
+        int start = 0;
+        int end = 0;
+
+        // this will keep track of the current patternIndex
+        int patternIndex = 0;
+
+        // keep looping while both indices are not out of boudns
+        while (patternIndex < pattern.length() && start < str.length()) {
+
+            // get the current pattern
+            char currPattern = pattern[patternIndex++];
+
+            // move end to the space character or the length
+            while (end < str.length() && str[end] != ' ') {
+
+                end++;
             }
-            
-            // otherwise, get the string then compare
-            else {
-                
-                auto myItr = myMap.find(myChar);
-                
-                // if not equal to current word, return false
-                if (myItr->second.compare(input) != 0) {
+
+            // get the word
+            string currString = str.substr(start, end - start);
+
+            // check if this string hasn't been paired
+            if (stringPair.find(currString) == stringPair.end()) {
+
+                // return false if this char has been paired
+                if (paired.find(currPattern) != paired.end()) {
 
                     return false;
                 }
+
+                // insert a new pair
+                stringPair.insert({currString, currPattern});
+                paired.insert(currPattern);
             }
+
+            // return false if it is not the current pattern
+            if (stringPair.find(currString)->second != currPattern) {
+
+                return false;
+            }
+
+            // start at the next of end
+            start = end + 1;
+            end = end + 1;
         }
-        
-        // return true if all words have been read
-        return ss.eof();
+
+        // both index must be at the end to be true
+        return patternIndex == pattern.length() && start >= str.length();
     }
 };

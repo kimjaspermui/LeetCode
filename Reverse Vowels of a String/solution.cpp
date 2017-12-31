@@ -1,39 +1,42 @@
 class Solution {
 public:
     string reverseVowels(string s) {
-        
-        // all vowels
-        unordered_set<char> myMap = {'a', 'e', 'i', 'o', 'u', 'A','E', 'I', 'O', 'U'};
-        
-        // this will contain all vowels in order in the string
-        vector<char> allVowels;
-        
-        // for loop to get all vowels
-        for (int i = 0; i < s.length(); i++) {
-            
-            // current char
-            char myChar = s[i];
-            
-            // if it is in the map, then store it in the vector
-            if (myMap.find(myChar) != myMap.end()) {
-                
-                allVowels.push_back(myChar);
-            }
-        }
-        
-        // change the vowels in the string
-        for (int i = s.length() - 1, j = 0; i >= 0; i--) {
-            
-            // current char
-            char myChar = s[i];
 
-            // if it is in the map, then change it from the vector
-            if (myMap.find(myChar) != myMap.end()) {
-                
-                s[i] = allVowels[j++];
+        // low and high indices from two ends
+        int low = 0;
+        int high = s.length();
+
+        // vowels in hash table
+        unordered_set<char> vowels = {'a','e','i','o','u',
+                                      'A','E','I','O','U'};
+
+        // keep looping while two pointers haven't met
+        while (low < high) {
+
+            // get the characters
+            char lowChar = s[low];
+            char highChar = s[high];
+
+            // if low is not a vowel increment to find a vowel
+            if (vowels.find(lowChar) == vowels.end()) {
+
+                low++;
+            }
+
+            // if high is not a vowel, decrement to find a vowel
+            else if (vowels.find(highChar) == vowels.end()) {
+
+                high--;
+            }
+
+            // both are vowels, swap characters then update indices
+            else {
+
+                s[low++] = highChar;
+                s[high--] = lowChar;
             }
         }
-        
+
         return s;
     }
 };

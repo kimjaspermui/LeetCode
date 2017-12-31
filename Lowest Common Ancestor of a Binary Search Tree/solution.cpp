@@ -10,14 +10,14 @@
  class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        
-        // loop until root's value is in between, or is equal one of the value
+
+        // loop until root's value is in between, or is equal one of the values
         while ((root->val < p->val && root->val < q->val) ||
                (root->val > p->val && root->val > q->val)) {
-            
+
             root = root->val < p->val ? root->right : root->left;
         }
-        
+
         return root;
     }
 };
