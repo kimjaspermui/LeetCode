@@ -1,64 +1,37 @@
 class Solution {
 public:
-    string convert(string s, int numRows) {
-        
-        // edge case, if numRows is 0 or 1 or less than or string length is equal to numRows
-        // then return same string
-        if (numRows == 0 || numRows == 1 || s.length() <= numRows) {
-            
-            return s;
+
+    // this will reverse the segment [start, end] in s
+    void reverse(string& s, int start, int end) {
+
+        // while loop to reverse segment [start, end]
+        while (start < end) {
+
+            // swap to reverse
+            char temp = s[end];
+            s[end--] = s[start];
+            s[start++] = temp;
         }
-        
-        // get the max interval
-        int maxInterval = (numRows - 1) * 2;
-        
-        // this will hold the current zigzag string
-        string zigZag;
-        
-        // the extra interval in between Z
-        int subInterval = maxInterval - 2;
-        
-        // iterate through rows
-        for (int i = 0; i < numRows; i++) {
-            
-            // start from the ith index
-            int currIndex = i;
-            
-            // case for top and bottom of Z
-            if (i == 0 || i == numRows - 1) {
-                
-                // get the next character using maxInterval
-                while (currIndex < s.length()) {
-                    
-                    zigZag.push_back(s[currIndex]);
-                    currIndex += maxInterval;
-                }
+    }
+
+    string reverseStr(string s, int k) {
+
+        // for loop where index increment by 2k
+        for (int i = 0; i < s.length(); i += 2 * k) {
+
+            // end start from i
+            int end = i;
+
+            // increment end while it doesn't reach the end of k length
+            while (end < s.length() && end != i + k) {
+
+                end++;
             }
-            
-            // case for row with sub intervals
-            else {
-                
-                // get the difference from max to sub interval
-                int diffInterval = maxInterval - subInterval;
-                
-                // set sub interval to on initially
-                bool subOn = true;
-                
-                // get the next character using sub and diff interval alternatively
-                while (currIndex < s.length()) {
-                    
-                    zigZag.push_back(s[currIndex]);
-                    
-                    // update the current index then alternate the switch
-                    currIndex += subOn ? subInterval : diffInterval;
-                    subOn = subOn ? false : true;
-                }
-                
-                // decrement subInterval by 2 for next row
-                subInterval -= 2;
-            }
+
+            // reverse the segments [i, end-1]
+            reverse(s, i, end-1);
         }
 
-        return zigZag;
+        return s;
     }
 };
