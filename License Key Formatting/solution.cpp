@@ -1,65 +1,51 @@
 class Solution {
 public:
     string licenseKeyFormatting(string S, int K) {
-        
-        // this will contain the license in reverse
-        vector<char> myVector;
-        
-        // this will count the current characters count before dash
-        int count = 0;
-        
-        // erase the dashes at the beginning
-        while (S[0] == '-') {
-            
-            S.erase(S.begin());
-        }
-        
-        // for loop to iterate all characters
-        for (int i = S.length() - 1; i >= 0; i--) {
-            
-            // get the character
-            char myChar = S[i];
-            
-            // if dash, ignore
-            if (myChar == '-') {
-                
-                continue;
-            }
-            
-            // if lower case, convert to upper case
-            else if ('a' <= myChar && myChar <= 'z') {
-                
-                myChar = myChar - ('a' - 'A');
-            }
-            
-            // append the character
-            myVector.push_back(myChar);
-            
-            // increment count
-            count++;
-            
-            // if matches K then add a dash if not at the first group
-            if (count == K) {
-                
-                if (i != 0) {
-                    
-                    myVector.push_back('-');
-                }
-                
-                count = 0;
+
+        // queue to store the characters
+        queue<char> myChars;
+
+        // push characters not dash to queue
+        for (char c : S) {
+
+            if (c != '-') {
+
+                myChars.push(c);
             }
         }
-        
-        // this will contain the new license plate to be returned
-        char myLicense[myVector.size() + 1];
-        
-        // fill the char array
-        for (int i = myVector.size() - 1, j = 0; i >= 0; i--, j++) {
-            
-            myLicense[j] = myVector[i];
+
+        // count of first group, and the rest of the groups
+        int firstGroup = myChars.size() % K;
+        int groupCount = myChars.size() / K;
+
+        // this will build the new liscense plate
+        string myBuilder;
+
+        // append the first group
+        for (int i = 0; i < firstGroup; i++) {
+
+            myBuilder.append(1, toupper(myChars.front()));
+            myChars.pop();
         }
-        myLicense[myVector.size()] = '\0';
-        
-        return myLicense;
+
+        // append the rest of the groups
+        for (int i = 0; i < groupCount; i++) {
+
+            // append a dash if it there is first group
+            // or it is not the second group
+            if (firstGroup != 0 || i != 0) {
+
+                myBuilder.append(1, '-');
+            }
+
+            for (int j = 0; j < K; j++) {
+
+                // append a characters
+                myBuilder.append(1, toupper(myChars.front()));
+                myChars.pop();
+            }
+        }
+
+        return myBuilder;
     }
 };
