@@ -1,5 +1,5 @@
 ## In here, you will find the submissions I turned in for LeetCode problems.
-## Goal: Trying to solve a problem at least once everyday
+## Goal: Solve a problem at least once everyday
 
 ### Leetcode Contests Rankings:
 ##### Weekly Contest 65: 469 / 1906
