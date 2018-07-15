@@ -5,6 +5,7 @@
 ##### Weekly Contest 65: 469 / 1906
 ##### Weekly Contest 66: 366 / 2308
 ##### Weekly Contest 67: 183 / 2865
+##### Weekly Contest 93: 950 / 4912
 
 ### Types of problems solved:
 ![screen shot 2018-01-14 at 9 11 44 pm](https://user-images.githubusercontent.com/22423977/34928040-ad4bb130-f96f-11e7-8eec-1a0737f33ccd.png)<br/>
